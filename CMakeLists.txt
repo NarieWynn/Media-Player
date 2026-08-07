@@ -14,6 +14,11 @@ qt_add_executable(appAutoPlayer
         src/main.cpp
         src/core/AudioPlayer.h
         src/core/AudioPlayer.cpp
+        src/core/MediaEngine.cpp
+        src/core/UsbScanner.cpp
+        src/controllers/PlaybackController.cpp
+        src/controllers/SettingsController.cpp
+        src/models/MediaModel.cpp
 )
 
 # Đổi URI thành AutoPlayer đồng bộ với project
