@@ -9,7 +9,7 @@
 
 ## Design Philosophy & HMI Ergonomics
 
-Inspired by minimalist manga/cyberpunk aesthetics, **Vortex HMI** strictly follows automotive UX guidelines:
+Inspired by minimalist manga/cyberpunk aesthetics, **HMI** strictly follows automotive UX guidelines:
 
 *   **Dark Monochrome Theme**: Optimized for night driving to reduce cabin glare and protect night vision.
 *   **High Contrast & Legibility**: Pure white elements over deep black background (`#0A0A0C`) for instantaneous readability within 2-second glance times.
@@ -45,7 +45,7 @@ Music-Player/
 ---
 ## Tech Stack & Requirements
 
-- Language: C++20 / QML
+- Language: C++17 / QML
 
 - Framework: Qt 6.5+ (Qt Quick, Qt Quick Controls, Qt Multimedia)
 
