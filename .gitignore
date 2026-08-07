@@ -1,0 +1,9 @@
+cmake-build-release/
+build/
+.idea/
+*.cmake
+*.o
+*.a
+*.so
+cmake-build-debug/
+*.user
