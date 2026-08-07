@@ -1,13 +1,14 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import "../components" // Import thư mục chứa TrackDelegate
+import "../components"
 
 Item {
     id: root
 
     // View này sẽ bám full màn hình khu vực hiển thị (trừ cái Sidebar ra)
-    anchors.fill: parent
+    Layout.fillWidth: true
+    Layout.fillHeight: true
 
     ColumnLayout {
         anchors.fill: parent
@@ -43,7 +44,8 @@ Item {
             Item { Layout.fillWidth: true } // Spacer đẩy cái Track Count sang sát mép phải
 
             Text {
-                text: "128 Tracks"
+                // Đếm số lượng bài hát thực tế từ C++ MediaModel
+                text: mediaModel ? mediaModel.rowCount() + " Tracks" : "0 Tracks"
                 color: "#5A5A5A"
                 font.pixelSize: 18
             }
@@ -59,34 +61,24 @@ Item {
             clip: true
             spacing: 8
 
-            // Biến nội bộ để theo dõi bài nào đang được chọn/phát
-            property int currentPlayingIndex: 0
+            // KẾT NỐI VỚI C++ BACKEND: Ăn thẳng data từ biến global mediaModel mày đã đăng ký ở main.cpp
+            model: mediaModel
 
-            // Dữ liệu giả lập (Sau này C++ Backend sẽ ném cái mô hình dữ liệu thật vào đây)
-            model: ListModel {
-                ListElement { title: "Starboy"; artist: "The Weeknd ft. Daft Punk"; duration: "3:50" }
-                ListElement { title: "Blinding Lights"; artist: "The Weeknd"; duration: "3:20" }
-                ListElement { title: "Nightcall"; artist: "Kavinsky"; duration: "4:19" }
-                ListElement { title: "Get Lucky"; artist: "Daft Punk ft. Pharrell Williams"; duration: "6:09" }
-                ListElement { title: "Lose Yourself to Dance"; artist: "Daft Punk"; duration: "5:53" }
-                ListElement { title: "Instant Crush"; artist: "Daft Punk"; duration: "5:38" }
-                ListElement { title: "Giorgio by Moroder"; artist: "Daft Punk"; duration: "9:04" }
-            }
-
-            // Gọi cái TrackDelegate mày vừa viết hồi nãy ra xài
+            // Gọi cái TrackDelegate ra xài
             delegate: TrackDelegate {
                 width: mediaList.width
-                title: model.title
-                artist: model.artist
-                duration: model.duration
 
-                // Nếu index của bài này trùng với index đang phát thì nó sẽ sáng lên
-                isActive: index === mediaList.currentPlayingIndex
+                // Gắn dữ liệu từ các roles của C++ vào (title, artist, formattedDuration)
+                title: model.title !== undefined ? model.title : "Unknown"
+                artist: model.artist !== undefined ? model.artist : "Unknown"
+                duration: model.formattedDuration !== undefined ? model.formattedDuration : "0:00"
+
+                // KẾT NỐI VỚI C++ BACKEND: Highlight bài đang phát nhờ vào playbackController
+                isActive: index === playbackController.currentIndex
 
                 onClicked: {
-                    mediaList.currentPlayingIndex = index
-                    console.log("Request play track index: " + index)
-                    // Chỗ này sau sẽ gọi C++ Backend: backend.playTrack(index)
+                    // Bắn tín hiệu chọt bài hát thẳng xuống C++
+                    playbackController.playTrack(index)
                 }
             }
 

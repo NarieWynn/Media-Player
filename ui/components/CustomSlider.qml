@@ -35,6 +35,7 @@ Slider {
         implicitWidth: 32
         implicitHeight: 32
         radius: 16
+        antialiasing: true // Chống răng cưa cho viền bo tròn sắc nét hơn
 
         // Nhấn vào thì hơi ngả xám để có Haptic/Visual feedback
         color: control.pressed ? "#D0D0D0" : "#FFFFFF"

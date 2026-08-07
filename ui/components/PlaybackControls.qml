@@ -20,6 +20,7 @@ RowLayout {
 
     // 1. Nút Shuffle (Ngẫu nhiên)
     Button {
+        Layout.alignment: Qt.AlignVCenter // Căn giữa theo trục dọc
         implicitWidth: 56
         implicitHeight: 56
         background: Rectangle {
@@ -41,6 +42,7 @@ RowLayout {
 
     // 2. Nút Previous (Bài trước)
     Button {
+        Layout.alignment: Qt.AlignVCenter
         implicitWidth: 72
         implicitHeight: 72
         background: Rectangle {
@@ -60,6 +62,7 @@ RowLayout {
 
     // 3. Nút Play / Pause (TRUNG TÂM - QUAN TRỌNG NHẤT)
     Button {
+        Layout.alignment: Qt.AlignVCenter
         implicitWidth: 96
         implicitHeight: 96
         background: Rectangle {
@@ -86,6 +89,7 @@ RowLayout {
 
     // 4. Nút Next (Bài tiếp theo)
     Button {
+        Layout.alignment: Qt.AlignVCenter
         implicitWidth: 72
         implicitHeight: 72
         background: Rectangle {
@@ -104,6 +108,7 @@ RowLayout {
 
     // 5. Nút Repeat (Lặp lại)
     Button {
+        Layout.alignment: Qt.AlignVCenter
         implicitWidth: 56
         implicitHeight: 56
         background: Rectangle {

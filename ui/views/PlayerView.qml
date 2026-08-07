@@ -5,11 +5,42 @@ import "../components" // Import để lôi CustomSlider và PlaybackControls ra
 
 Item {
     id: root
-    anchors.fill: parent
+    Layout.fillWidth: true
+    Layout.fillHeight: true
 
-    // Các biến giả lập trạng thái (Sau này sẽ nối với C++ Backend)
-    property bool isPlaying: false
-    property real progress: 0.35
+    function formatTime(ms) {
+        if (!ms || ms <= 0) return "0:00";
+        var totalSeconds = Math.floor(ms / 1000);
+        var minutes = Math.floor(totalSeconds / 60);
+        var seconds = totalSeconds % 60;
+        return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+    }
+
+    // KẾT NỐI VỚI C++: Lấy trạng thái Play/Pause từ Backend
+    property bool isPlaying: playbackController ? playbackController.isPlaying : false
+
+    // Tạo property lưu thông tin bài hát hiện tại để code bên dưới cho gọn
+    property var currentTrack: null
+
+    // Hàm nhỏ để tự động móc thông tin bài hát từ Model ra mỗi khi index đổi
+    function updateCurrentTrack() {
+        if (mediaModel && playbackController && playbackController.currentIndex >= 0) {
+            currentTrack = mediaModel.getTrackData(playbackController.currentIndex);
+        } else {
+            currentTrack = null;
+        }
+    }
+
+    // Lắng nghe sự kiện đổi bài từ Backend
+    Connections {
+        target: playbackController
+        function onCurrentIndexChanged() {
+            root.updateCurrentTrack();
+        }
+    }
+
+    // Gọi lần đầu khi load View
+    Component.onCompleted: updateCurrentTrack()
 
     RowLayout {
         anchors.fill: parent
@@ -60,9 +91,9 @@ Item {
 
             Item { Layout.fillHeight: true } // Đẩy cụm control xuống giữa
 
-            // Tên bài hát & Ca sĩ (Bắt buộc dùng Elide cắt chữ nếu quá dài)
+            // Tên bài hát (Lấy từ C++)
             Text {
-                text: "Starboy"
+                text: root.currentTrack ? root.currentTrack.title : "Unknown Title"
                 color: "#FFFFFF"
                 font.pixelSize: 48
                 font.bold: true
@@ -70,15 +101,16 @@ Item {
                 Layout.fillWidth: true
             }
 
+            // Tên ca sĩ (Lấy từ C++)
             Text {
-                text: "The Weeknd ft. Daft Punk"
+                text: root.currentTrack ? root.currentTrack.artist : "Unknown Artist"
                 color: "#7A7A7A"
                 font.pixelSize: 24
                 elide: Text.ElideRight
                 Layout.fillWidth: true
             }
 
-            // Nhãn định dạng âm thanh (Audio Format Badge) - Nhìn cho nguy hiểm
+            // Nhãn định dạng âm thanh (Tạm thời fix cứng là MP3 vì scanner nãy chỉ bắt .mp3)
             Rectangle {
                 Layout.topMargin: 5
                 Layout.preferredWidth: 90
@@ -89,7 +121,7 @@ Item {
 
                 Text {
                     anchors.centerIn: parent
-                    text: "FLAC"
+                    text: "MP3"
                     color: "#D0D0D0"
                     font.pixelSize: 12
                     font.bold: true
@@ -98,34 +130,55 @@ Item {
 
             Item { Layout.preferredHeight: 30 } // Khoảng cách giữa Info và Slider
 
-            // Thanh Progress Slider (Gọi CustomSlider ra xài)
+            // Thanh Progress Slider
             RowLayout {
                 Layout.fillWidth: true
                 spacing: 15
 
-                Text { text: "01:24"; color: "#7A7A7A"; font.pixelSize: 16 }
-
-                CustomSlider {
-                    Layout.fillWidth: true
-                    value: root.progress
-                    onMoved: root.progress = value
+                // 1. Thời gian đang chạy (Phần này nhảy số liên tục theo MediaPlayer position)
+                Text {
+                    text: root.formatTime(mediaEngine && mediaEngine.player() ? mediaEngine.player().position : 0)
+                    color: "#7A7A7A"
+                    font.pixelSize: 16
                 }
 
-                Text { text: "03:50"; color: "#7A7A7A"; font.pixelSize: 16 }
+                // 2. Thanh kéo tua nhạc
+                CustomSlider {
+                    Layout.fillWidth: true
+                    value: (mediaEngine && mediaEngine.player() && mediaEngine.player().duration > 0)
+                        ? (mediaEngine.player().position / mediaEngine.player().duration)
+                        : 0
+
+                    onMoved: {
+                        if (mediaEngine && mediaEngine.player() && mediaEngine.player().duration > 0) {
+                            var targetPos = value * mediaEngine.player().duration;
+                            mediaEngine.player().seek(targetPos);
+                        }
+                    }
+                }
+
+                // 3. Tổng thời lượng bài hát (Lấy thẳng từ C++ MediaPlayer)
+                Text {
+                    text: root.formatTime(mediaEngine && mediaEngine.player() ? mediaEngine.player().duration : 0)
+                    color: "#7A7A7A"
+                    font.pixelSize: 16
+                }
             }
 
             Item { Layout.preferredHeight: 20 }
 
-            // Bộ nút điều khiển (Gọi PlaybackControls ra xài)
+            // Bộ nút điều khiển (Đã móc vào C++)
             PlaybackControls {
                 Layout.alignment: Qt.AlignHCenter
                 isPlaying: root.isPlaying
+
                 onPlayPauseClicked: {
-                    root.isPlaying = !root.isPlaying
-                    console.log("Play/Pause clicked!")
+                    if (playbackController) {
+                        playbackController.togglePlayPause()
+                    }
                 }
-                onNextClicked: console.log("Next track!")
-                onPrevClicked: console.log("Prev track!")
+                onNextClicked: if (playbackController) playbackController.next()
+                onPrevClicked: if (playbackController) playbackController.previous()
             }
 
             Item { Layout.fillHeight: true } // Đẩy cụm control lên giữa

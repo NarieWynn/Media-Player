@@ -41,6 +41,7 @@ Music-Player/
 └── src/                    # C++ Backend
     ├── core/               # Engine & Hardware I/O (MediaEngine, UsbScanner)
     ├── controllers/        # QML Bridge & State Management (PlaybackController, SettingsController)
+    └── models/             # Data Models & Virtualization (MediaModel, TrackItem)
 ```
 ---
 ## Tech Stack & Requirements
@@ -52,6 +53,7 @@ Music-Player/
 - Build System: CMake 3.16+
 
 - Compiler: GCC / Clang (Linux x86_64 or ARM64 embedded targets)
+- Architecture and code prototyping developed with AI assistance.
 ---
 ## Building & Running
 1. Clone the repository

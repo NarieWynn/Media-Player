@@ -7,21 +7,25 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Multimedia)
 
 qt_standard_project_setup()
-# Bật policy QTP0001 để Qt6 tự động fix đường dẫn resource cho folder con
 qt_policy(SET QTP0001 NEW)
 
 qt_add_executable(appAutoPlayer
         src/main.cpp
-        src/core/AudioPlayer.h
-        src/core/AudioPlayer.cpp
+        src/core/MediaPlayer.h
+        src/core/MediaPlayer.cpp
         src/core/MediaEngine.cpp
+        src/core/MediaEngine.h
         src/core/UsbScanner.cpp
+        src/core/UsbScanner.h
         src/controllers/PlaybackController.cpp
+        src/controllers/PlaybackController.h
+        src/controllers/SettingsController.h
         src/controllers/SettingsController.cpp
         src/models/MediaModel.cpp
+        src/models/MediaModel.h
+        src/models/TrackItem.h
 )
 
-# Đổi URI thành AutoPlayer đồng bộ với project
 qt_add_qml_module(appAutoPlayer
         URI app_id
         VERSION 1.0
@@ -34,6 +38,10 @@ qt_add_qml_module(appAutoPlayer
         ui/views/PlayerView.qml
         ui/views/MediaLibraryView.qml
         ui/views/SettingsView.qml
+
+        RESOURCES
+        assets/doge.png
+        assets/doge2.png
 )
 
 target_link_libraries(appAutoPlayer PRIVATE

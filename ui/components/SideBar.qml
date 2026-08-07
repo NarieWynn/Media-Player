@@ -60,6 +60,10 @@ Rectangle {
             ]
 
             delegate: Rectangle {
+                // Tối ưu chuẩn Qt6: Khai báo tường minh index và modelData
+                required property int index
+                required property var modelData
+
                 Layout.alignment: Qt.AlignHCenter
                 Layout.preferredWidth: 70
                 Layout.preferredHeight: 70
@@ -92,8 +96,8 @@ Rectangle {
                     id: mouseArea
                     anchors.fill: parent
                     onClicked: {
-                        root.currentIndex = index
-                        root.tabClicked(index)
+                        root.currentIndex = parent.index // Trỏ đúng vào index của delegate
+                        root.tabClicked(parent.index)
                     }
                 }
 

@@ -5,7 +5,8 @@ import "../components" // Lôi CustomSlider ra xài cho phần Âm lượng
 
 Item {
     id: root
-    anchors.fill: parent
+    Layout.fillWidth: true
+    Layout.fillHeight: true
 
     Flickable {
         anchors.fill: parent
@@ -32,13 +33,13 @@ Item {
                 font.bold: true
             }
 
-            // ================= SECTION 1: HỆ THỐNG & AN TOÀN =================
+            // ================= SECTION 1: HỆ THỐNG & USB =================
             ColumnLayout {
                 Layout.fillWidth: true
                 spacing: 20
 
                 Text {
-                    text: "SYSTEM & SAFETY"
+                    text: "SYSTEM & MEDIA"
                     color: "#5A5A5A"
                     font.pixelSize: 16
                     font.bold: true
@@ -50,40 +51,70 @@ Item {
                     color: "#2A2A2A"
                 }
 
-                // Công tắc: Cho phép xem Video khi xe di chuyển
+                // 1. Công tắc: Tự động phát nhạc khi cắm USB (Móc vào C++)
                 RowLayout {
                     Layout.fillWidth: true
 
                     ColumnLayout {
                         Layout.fillWidth: true
                         spacing: 4
-                        Text { text: "Allow Video While Driving"; color: "#FFFFFF"; font.pixelSize: 22 }
-                        Text { text: "Warning: May distract the driver"; color: "#7A7A7A"; font.pixelSize: 14 }
+                        Text { text: "Auto Play on USB Insert"; color: "#FFFFFF"; font.pixelSize: 22 }
+                        Text { text: "Automatically start playing when USB is detected"; color: "#7A7A7A"; font.pixelSize: 14 }
                     }
 
                     Switch {
-                        id: videoSwitch
-                        checked: true // Mặc định bật cho em mày xem :v
+                        id: autoPlaySwitch
+                        // Đồng bộ trạng thái 2 chiều với C++ SettingsController
+                        checked: settingsController ? settingsController.autoPlayOnInsert : true
+                        onCheckedChanged: {
+                            if (settingsController && settingsController.autoPlayOnInsert !== checked) {
+                                settingsController.setAutoPlayOnInsert(checked)
+                            }
+                        }
 
                         // Custom lại cái Switch cho bự và ra chất Monochrome
                         indicator: Rectangle {
                             implicitWidth: 64
                             implicitHeight: 32
                             radius: 16
-                            // Bật thì nền trắng, tắt thì nền xám
-                            color: videoSwitch.checked ? "#FFFFFF" : "#2A2A2A"
-                            border.color: videoSwitch.checked ? "#FFFFFF" : "#4A4A4A"
+                            color: autoPlaySwitch.checked ? "#FFFFFF" : "#2A2A2A"
+                            border.color: autoPlaySwitch.checked ? "#FFFFFF" : "#4A4A4A"
 
                             Rectangle {
-                                // Cục tròn tròn chạy qua chạy lại
-                                x: videoSwitch.checked ? parent.width - width - 4 : 4
+                                x: autoPlaySwitch.checked ? parent.width - width - 4 : 4
                                 y: 4
                                 width: 24
                                 height: 24
                                 radius: 12
-                                // Bật thì cục tròn màu đen (nổi trên nền trắng), tắt thì xám đậm
-                                color: videoSwitch.checked ? "#000000" : "#7A7A7A"
-                                Behavior on x { NumberAnimation { duration: 150 } } // Animation mượt
+                                color: autoPlaySwitch.checked ? "#000000" : "#7A7A7A"
+                                Behavior on x { NumberAnimation { duration: 150 } }
+                            }
+                        }
+                    }
+                }
+
+                Item { Layout.preferredHeight: 10 } // Spacer
+
+                // 2. Chỉnh đường dẫn thư mục quét USB (Móc vào C++)
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: 20
+
+                    Text { text: "USB Scan Path:"; color: "#FFFFFF"; font.pixelSize: 22; Layout.preferredWidth: 200 }
+
+                    TextField {
+                        Layout.fillWidth: true
+                        text: settingsController ? settingsController.scanPath : "/media/usb"
+                        color: "#FFFFFF"
+                        font.pixelSize: 18
+                        background: Rectangle {
+                            color: "#1A1A1A"
+                            radius: 8
+                            border.color: "#333333"
+                        }
+                        onEditingFinished: {
+                            if (settingsController) {
+                                settingsController.setScanPath(text)
                             }
                         }
                     }
@@ -92,13 +123,13 @@ Item {
 
             Item { Layout.preferredHeight: 10 } // Spacer
 
-            // ================= SECTION 2: ÂM THANH =================
+            // ================= SECTION 2: GIAO DIỆN & ÂM THANH =================
             ColumnLayout {
                 Layout.fillWidth: true
                 spacing: 20
 
                 Text {
-                    text: "AUDIO & EQUALIZER"
+                    text: "DISPLAY & AUDIO"
                     color: "#5A5A5A"
                     font.pixelSize: 16
                     font.bold: true
@@ -110,7 +141,43 @@ Item {
                     color: "#2A2A2A"
                 }
 
-                // Slider chỉnh âm lượng (Dùng lại CustomSlider)
+                // Công tắc: Dark Mode (Móc vào C++)
+                RowLayout {
+                    Layout.fillWidth: true
+
+                    Text { text: "Dark Mode (Vortex Theme)"; color: "#FFFFFF"; font.pixelSize: 22; Layout.fillWidth: true }
+
+                    Switch {
+                        id: darkModeSwitch
+                        checked: settingsController ? settingsController.darkMode : true
+                        onCheckedChanged: {
+                            if (settingsController && settingsController.darkMode !== checked) {
+                                settingsController.setDarkMode(checked)
+                            }
+                        }
+
+                        indicator: Rectangle {
+                            implicitWidth: 64
+                            implicitHeight: 32
+                            radius: 16
+                            color: darkModeSwitch.checked ? "#FFFFFF" : "#2A2A2A"
+
+                            Rectangle {
+                                x: darkModeSwitch.checked ? parent.width - width - 4 : 4
+                                y: 4
+                                width: 24
+                                height: 24
+                                radius: 12
+                                color: darkModeSwitch.checked ? "#000000" : "#7A7A7A"
+                                Behavior on x { NumberAnimation { duration: 150 } }
+                            }
+                        }
+                    }
+                }
+
+                Item { Layout.preferredHeight: 10 }
+
+                // Slider chỉnh âm lượng (Móc trực tiếp vào MediaPlayer qua playbackController)
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 20
@@ -121,41 +188,16 @@ Item {
 
                     CustomSlider {
                         Layout.fillWidth: true
-                        value: 0.6 // 60%
-                    }
+                        value: (mediaEngine && mediaEngine.player()) ? mediaEngine.player().volume : 0.5
 
-                    Text { text: "🔊"; color: "#FFFFFF"; font.pixelSize: 24 }
-                }
-
-                Item { Layout.preferredHeight: 10 }
-
-                // Công tắc: Bass Boost
-                RowLayout {
-                    Layout.fillWidth: true
-
-                    Text { text: "Bass Boost"; color: "#FFFFFF"; font.pixelSize: 22; Layout.fillWidth: true }
-
-                    Switch {
-                        id: bassSwitch
-                        checked: false
-
-                        indicator: Rectangle {
-                            implicitWidth: 64
-                            implicitHeight: 32
-                            radius: 16
-                            color: bassSwitch.checked ? "#FFFFFF" : "#2A2A2A"
-
-                            Rectangle {
-                                x: bassSwitch.checked ? parent.width - width - 4 : 4
-                                y: 4
-                                width: 24
-                                height: 24
-                                radius: 12
-                                color: bassSwitch.checked ? "#000000" : "#7A7A7A"
-                                Behavior on x { NumberAnimation { duration: 150 } }
+                        onMoved: {
+                            if (mediaEngine && mediaEngine.player()) {
+                                mediaEngine.player().setVolume(value)
                             }
                         }
                     }
+
+                    Text { text: "🔊"; color: "#FFFFFF"; font.pixelSize: 24 }
                 }
             }
         }
