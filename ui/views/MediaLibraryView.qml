@@ -57,7 +57,6 @@ Item {
             }
         }
 
-        // 2. DANH SÁCH BÀI HÁT / VIDEO
         ListView {
             id: mediaList
             Layout.fillWidth: true
@@ -69,7 +68,6 @@ Item {
             delegate: TrackDelegate {
                 id: delegateRoot
 
-                // Lọc hiển thị: Đang ở tab nào thì hiện loại file đó
                 property bool isMatchTab: (root.currentTab === 1) ? model.isVideo : !model.isVideo
 
                 width: ListView.view ? ListView.view.width : 400
