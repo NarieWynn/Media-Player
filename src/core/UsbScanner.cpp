@@ -5,7 +5,7 @@
 #include <QStandardPaths>
 #include <QPainter>
 #include <QUrl>
-
+#include <QCoreApplication>
 #ifndef Q_OS_ANDROID
 #include <taglib/fileref.h>
 #include <taglib/tag.h>
@@ -29,6 +29,7 @@ void UsbScanner::scanDirectory(const QString &basePath) {
         QDirIterator it(dirPath, filters, QDir::Files | QDir::NoDotAndDotDot);
 
         while (it.hasNext()) {
+            QCoreApplication::processEvents();
             it.next();
             QFileInfo fileInfo = it.fileInfo();
             TrackItem track;
