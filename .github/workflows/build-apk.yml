@@ -29,9 +29,11 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install Android NDK 26 via sdkmanager
+      - name: Install Android SDK 34 & Clean API 36 Preview
         run: |
           yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --install "ndk;26.0.10792818" "platforms;android-34" "build-tools;34.0.0"
+          # Xóa bản android-36 rác để aapt2 không bao giờ liếc tới
+          rm -rf $ANDROID_SDK_ROOT/platforms/android-36*
 
       - name: Install aqtinstall
         run: |
@@ -54,12 +56,11 @@ jobs:
             -DANDROID_PLATFORM=android-34 \
             -DCMAKE_BUILD_TYPE=Release
 
-      - name: Force Android Compile SDK 34 & Fix Repositories in Gradle
+      - name: Force Fix SDK 34 in build.gradle
         run: |
-          sed -i 's/compileSdkVersion 33/compileSdkVersion 34/g' build-ci/android-build/build.gradle || true
-          sed -i 's/targetSdkVersion 33/targetSdkVersion 34/g' build-ci/android-build/build.gradle || true
-          # Chèn repository google() và maven() chuẩn lên đầu build.gradle
-          sed -i '/buildscript {/a \    repositories {\n        google()\n        mavenCentral()\n        maven { url "https://maven.aliyun.com/repository/public" }\n    }' build-ci/android-build/build.gradle || true
+          # Ép compileSdkVersion và targetSdkVersion về cứng 34
+          sed -i 's/compileSdkVersion .*/compileSdkVersion 34/g' build-ci/android-build/build.gradle || true
+          sed -i 's/targetSdkVersion .*/targetSdkVersion 34/g' build-ci/android-build/build.gradle || true
 
       - name: Build APK
         run: |
