@@ -21,6 +21,9 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -51,10 +54,12 @@ jobs:
             -DANDROID_PLATFORM=android-34 \
             -DCMAKE_BUILD_TYPE=Release
 
-      - name: Force Android Compile SDK 34 in Gradle
+      - name: Force Android Compile SDK 34 & Fix Repositories in Gradle
         run: |
           sed -i 's/compileSdkVersion 33/compileSdkVersion 34/g' build-ci/android-build/build.gradle || true
           sed -i 's/targetSdkVersion 33/targetSdkVersion 34/g' build-ci/android-build/build.gradle || true
+          # Chèn repository google() và maven() chuẩn lên đầu build.gradle
+          sed -i '/buildscript {/a \    repositories {\n        google()\n        mavenCentral()\n        maven { url "https://maven.aliyun.com/repository/public" }\n    }' build-ci/android-build/build.gradle || true
 
       - name: Build APK
         run: |
