@@ -12,6 +12,7 @@ int main(int argc, char *argv[]) {
     // 1. Khởi tạo mớ Backend
     MediaEngine engine;
     engine.startScan("/home/nariewynn/Music/mp3");
+    engine.startScan("/home/nariewynn/Music/mp4");
     PlaybackController playbackController(&engine);
     SettingsController settingsController;
 

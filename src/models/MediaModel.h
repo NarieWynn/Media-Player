@@ -25,7 +25,8 @@ public:
         AlbumRole,
         CoverArtRole,
         DurationRole,
-        FormattedDurationRole
+        FormattedDurationRole,
+        IsVideoRole
     };
 
 private:

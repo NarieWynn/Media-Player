@@ -20,6 +20,7 @@ QVariant MediaModel::data(const QModelIndex &index, int role) const {
         case CoverArtRole: return track.coverArt;
         case DurationRole: return track.duration;
         case FormattedDurationRole: return track.formattedDuration();
+        case IsVideoRole: return track.isVideo; // <-- BỔ SUNG: Trả về trạng thái Video
         default: return QVariant();
     }
 }
@@ -27,19 +28,13 @@ QVariant MediaModel::data(const QModelIndex &index, int role) const {
 QHash<int, QByteArray>  MediaModel::roleNames() const {
     QHash<int, QByteArray>  roles;
     roles[FilePathRole] = "filePath";
-
     roles[TitleRole] = "title";
-
     roles[ArtistRole] = "artist";
-
     roles[AlbumRole] = "album";
-
     roles[CoverArtRole] = "coverArt";
-
     roles[DurationRole] = "duration";
-
     roles[FormattedDurationRole] = "formattedDuration";
-
+    roles[IsVideoRole] = "isVideo"; // <-- BỔ SUNG: Định nghĩa tên biến cho QML gọi
     return roles;
 }
 
@@ -79,6 +74,7 @@ QVariantMap MediaModel::getTrackData(int index) const {
         map["coverArt"] = track.coverArt;
         map["duration"] = track.duration;
         map["formattedDuration"] = track.formattedDuration();
+        map["isVideo"] = track.isVideo; // <-- BỔ SUNG: Đóng gói cẩn thận để PlayerView đọc
     }
     return map;
 }

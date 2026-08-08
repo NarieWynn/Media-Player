@@ -42,7 +42,7 @@ qt_add_qml_module(appAutoPlayer
         ui/views/PlayerView.qml
         ui/views/MediaLibraryView.qml
         ui/views/SettingsView.qml
-
+        ui/views/VideoPlayerView.qml
         RESOURCES
         assets/doge.png
         assets/doge2.png

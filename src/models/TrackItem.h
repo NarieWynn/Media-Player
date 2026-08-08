@@ -8,6 +8,7 @@ struct TrackItem {
     QString album;
     QString coverArt;
     qint64 duration = 0;
+    bool isVideo = false;
 
     [[nodiscard]] QString formattedDuration() const {
         qint64 totalSeconds = duration / 1000;
