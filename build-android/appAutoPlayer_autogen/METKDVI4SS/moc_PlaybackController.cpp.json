@@ -1,0 +1,110 @@
+{
+    "classes": [
+        {
+            "className": "PlaybackController",
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "name": "currentIndex",
+                    "notify": "currentIndexChanged",
+                    "read": "currentIndex",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "int",
+                    "user": false
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 1,
+                    "name": "isPlaying",
+                    "notify": "isPlayingChanged",
+                    "read": "isPlaying",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false
+                }
+            ],
+            "qualifiedClassName": "PlaybackController",
+            "signals": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "index",
+                            "type": "int"
+                        }
+                    ],
+                    "name": "currentIndexChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "isPlaying",
+                            "type": "bool"
+                        }
+                    ],
+                    "name": "isPlayingChanged",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "index",
+                            "type": "int"
+                        }
+                    ],
+                    "name": "playTrack",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "togglePlayPause",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "next",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "previous",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "position",
+                            "type": "qint64"
+                        }
+                    ],
+                    "name": "seek",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "PlaybackController.h",
+    "outputRevision": 68
+}

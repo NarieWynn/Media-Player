@@ -1,0 +1,6 @@
+/home/nariewynn/Projects/AutoPlayer/build-android/appAutoPlayer_autogen/include/../M4YTXQ7V2H/moc_MediaModel.cpp.json
+/home/nariewynn/Projects/AutoPlayer/build-android/appAutoPlayer_autogen/include/../METKDVI4SS/moc_PlaybackController.cpp.json
+/home/nariewynn/Projects/AutoPlayer/build-android/appAutoPlayer_autogen/include/../METKDVI4SS/moc_SettingsController.cpp.json
+/home/nariewynn/Projects/AutoPlayer/build-android/appAutoPlayer_autogen/include/../PRMOGMWJPH/moc_MediaEngine.cpp.json
+/home/nariewynn/Projects/AutoPlayer/build-android/appAutoPlayer_autogen/include/../PRMOGMWJPH/moc_MediaPlayer.cpp.json
+/home/nariewynn/Projects/AutoPlayer/build-android/appAutoPlayer_autogen/include/../PRMOGMWJPH/moc_UsbScanner.cpp.json

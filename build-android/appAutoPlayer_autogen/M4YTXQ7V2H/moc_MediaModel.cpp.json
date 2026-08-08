@@ -1,0 +1,41 @@
+{
+    "classes": [
+        {
+            "className": "MediaModel",
+            "methods": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "index",
+                            "type": "int"
+                        }
+                    ],
+                    "name": "getTrack",
+                    "returnType": "TrackItem"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "index",
+                            "type": "int"
+                        }
+                    ],
+                    "name": "getTrackData",
+                    "returnType": "QVariantMap"
+                }
+            ],
+            "object": true,
+            "qualifiedClassName": "MediaModel",
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QAbstractListModel"
+                }
+            ]
+        }
+    ],
+    "inputFile": "MediaModel.h",
+    "outputRevision": 68
+}

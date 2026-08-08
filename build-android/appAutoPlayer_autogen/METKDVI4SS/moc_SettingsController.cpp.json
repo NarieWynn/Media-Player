@@ -1,0 +1,139 @@
+{
+    "classes": [
+        {
+            "className": "SettingsController",
+            "object": true,
+            "properties": [
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 0,
+                    "name": "scanPath",
+                    "notify": "scanPathChanged",
+                    "read": "scanPath",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "QString",
+                    "user": false,
+                    "write": "setScanPath"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 1,
+                    "name": "autoPlayOnInsert",
+                    "notify": "autoPlayOnInsertChanged",
+                    "read": "autoPlayOnInsert",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false,
+                    "write": "setAutoPlayOnInsert"
+                },
+                {
+                    "constant": false,
+                    "designable": true,
+                    "final": false,
+                    "index": 2,
+                    "name": "darkMode",
+                    "notify": "darkModeChanged",
+                    "read": "darkMode",
+                    "required": false,
+                    "scriptable": true,
+                    "stored": true,
+                    "type": "bool",
+                    "user": false,
+                    "write": "setDarkMode"
+                }
+            ],
+            "qualifiedClassName": "SettingsController",
+            "signals": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "scanPathChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "autoPlay",
+                            "type": "bool"
+                        }
+                    ],
+                    "name": "autoPlayOnInsertChanged",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "darkMode",
+                            "type": "bool"
+                        }
+                    ],
+                    "name": "darkModeChanged",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "setScanPath",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "autoPlay",
+                            "type": "bool"
+                        }
+                    ],
+                    "name": "setAutoPlayOnInsert",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "darkMode",
+                            "type": "bool"
+                        }
+                    ],
+                    "name": "setDarkMode",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "resetToDefaults",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "SettingsController.h",
+    "outputRevision": 68
+}

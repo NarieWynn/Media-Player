@@ -1,0 +1,48 @@
+{
+    "classes": [
+        {
+            "className": "UsbScanner",
+            "object": true,
+            "qualifiedClassName": "UsbScanner",
+            "signals": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "track",
+                            "type": "TrackItem"
+                        }
+                    ],
+                    "name": "trackFound",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "name": "scanFinished",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "scanDirectory",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "UsbScanner.h",
+    "outputRevision": 68
+}

@@ -1,0 +1,602 @@
+[
+    {
+        "classes": [
+            {
+                "className": "MediaModel",
+                "methods": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "index",
+                                "type": "int"
+                            }
+                        ],
+                        "name": "getTrack",
+                        "returnType": "TrackItem"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "index",
+                                "type": "int"
+                            }
+                        ],
+                        "name": "getTrackData",
+                        "returnType": "QVariantMap"
+                    }
+                ],
+                "object": true,
+                "qualifiedClassName": "MediaModel",
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QAbstractListModel"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "MediaModel.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "PlaybackController",
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 0,
+                        "name": "currentIndex",
+                        "notify": "currentIndexChanged",
+                        "read": "currentIndex",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "int",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 1,
+                        "name": "isPlaying",
+                        "notify": "isPlayingChanged",
+                        "read": "isPlaying",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "bool",
+                        "user": false
+                    }
+                ],
+                "qualifiedClassName": "PlaybackController",
+                "signals": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "index",
+                                "type": "int"
+                            }
+                        ],
+                        "name": "currentIndexChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "isPlaying",
+                                "type": "bool"
+                            }
+                        ],
+                        "name": "isPlayingChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "slots": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "index",
+                                "type": "int"
+                            }
+                        ],
+                        "name": "playTrack",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "togglePlayPause",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "next",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "previous",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "position",
+                                "type": "qint64"
+                            }
+                        ],
+                        "name": "seek",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "PlaybackController.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "SettingsController",
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 0,
+                        "name": "scanPath",
+                        "notify": "scanPathChanged",
+                        "read": "scanPath",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "QString",
+                        "user": false,
+                        "write": "setScanPath"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 1,
+                        "name": "autoPlayOnInsert",
+                        "notify": "autoPlayOnInsertChanged",
+                        "read": "autoPlayOnInsert",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "bool",
+                        "user": false,
+                        "write": "setAutoPlayOnInsert"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 2,
+                        "name": "darkMode",
+                        "notify": "darkModeChanged",
+                        "read": "darkMode",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "bool",
+                        "user": false,
+                        "write": "setDarkMode"
+                    }
+                ],
+                "qualifiedClassName": "SettingsController",
+                "signals": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "path",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "scanPathChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "autoPlay",
+                                "type": "bool"
+                            }
+                        ],
+                        "name": "autoPlayOnInsertChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "darkMode",
+                                "type": "bool"
+                            }
+                        ],
+                        "name": "darkModeChanged",
+                        "returnType": "void"
+                    }
+                ],
+                "slots": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "path",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "setScanPath",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "autoPlay",
+                                "type": "bool"
+                            }
+                        ],
+                        "name": "setAutoPlayOnInsert",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "darkMode",
+                                "type": "bool"
+                            }
+                        ],
+                        "name": "setDarkMode",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "resetToDefaults",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "SettingsController.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "MediaEngine",
+                "methods": [
+                    {
+                        "access": "public",
+                        "name": "player",
+                        "returnType": "MediaPlayer*"
+                    }
+                ],
+                "object": true,
+                "qualifiedClassName": "MediaEngine",
+                "slots": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "path",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "startScan",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "index",
+                                "type": "int"
+                            }
+                        ],
+                        "name": "playTrackIndex",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "MediaEngine.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "MediaPlayer",
+                "methods": [
+                    {
+                        "access": "public",
+                        "name": "volume",
+                        "returnType": "float"
+                    }
+                ],
+                "object": true,
+                "properties": [
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 0,
+                        "name": "volume",
+                        "notify": "volumeChanged",
+                        "read": "volume",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "float",
+                        "user": false,
+                        "write": "setVolume"
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 1,
+                        "name": "position",
+                        "notify": "positionChanged",
+                        "read": "position",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "qint64",
+                        "user": false
+                    },
+                    {
+                        "constant": false,
+                        "designable": true,
+                        "final": false,
+                        "index": 2,
+                        "name": "duration",
+                        "notify": "durationChanged",
+                        "read": "duration",
+                        "required": false,
+                        "scriptable": true,
+                        "stored": true,
+                        "type": "qint64",
+                        "user": false
+                    }
+                ],
+                "qualifiedClassName": "MediaPlayer",
+                "signals": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "position",
+                                "type": "qint64"
+                            }
+                        ],
+                        "name": "positionChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "duration",
+                                "type": "qint64"
+                            }
+                        ],
+                        "name": "durationChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "state",
+                                "type": "QMediaPlayer::PlaybackState"
+                            }
+                        ],
+                        "name": "playbackStateChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "volume",
+                                "type": "float"
+                            }
+                        ],
+                        "name": "volumeChanged",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "mediaFinished",
+                        "returnType": "void"
+                    }
+                ],
+                "slots": [
+                    {
+                        "access": "public",
+                        "name": "play",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "url",
+                                "type": "QUrl"
+                            }
+                        ],
+                        "name": "playUrl",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "pause",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "stop",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "position",
+                                "type": "qint64"
+                            }
+                        ],
+                        "name": "setPosition",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "volume",
+                                "type": "float"
+                            }
+                        ],
+                        "name": "setVolume",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "position",
+                                "type": "qint64"
+                            }
+                        ],
+                        "name": "seek",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "mute",
+                                "type": "bool"
+                            }
+                        ],
+                        "name": "setMute",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "speed",
+                                "type": "float"
+                            }
+                        ],
+                        "name": "setSpeed",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "loop",
+                                "type": "bool"
+                            }
+                        ],
+                        "name": "setLoop",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "MediaPlayer.h",
+        "outputRevision": 68
+    },
+    {
+        "classes": [
+            {
+                "className": "UsbScanner",
+                "object": true,
+                "qualifiedClassName": "UsbScanner",
+                "signals": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "track",
+                                "type": "TrackItem"
+                            }
+                        ],
+                        "name": "trackFound",
+                        "returnType": "void"
+                    },
+                    {
+                        "access": "public",
+                        "name": "scanFinished",
+                        "returnType": "void"
+                    }
+                ],
+                "slots": [
+                    {
+                        "access": "public",
+                        "arguments": [
+                            {
+                                "name": "path",
+                                "type": "QString"
+                            }
+                        ],
+                        "name": "scanDirectory",
+                        "returnType": "void"
+                    }
+                ],
+                "superClasses": [
+                    {
+                        "access": "public",
+                        "name": "QObject"
+                    }
+                ]
+            }
+        ],
+        "inputFile": "UsbScanner.h",
+        "outputRevision": 68
+    }
+]

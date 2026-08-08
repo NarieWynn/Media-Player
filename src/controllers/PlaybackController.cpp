@@ -21,19 +21,34 @@ void PlaybackController::playTrack(int index) {
     m_currentIndex = index;
     emit currentIndexChanged(m_currentIndex);
 
-    // Lấy URL bài hát từ Model ra và phát
+    // Lấy thông tin bài hát từ Model ra
     QVariantMap trackData = m_engine->model()->getTrackData(index);
     QString filePath = trackData["filePath"].toString();
-    m_engine->player()->playUrl(QUrl::fromLocalFile(filePath));
+    bool isVideo = trackData["isVideo"].toBool(); // <-- BỚI THẰNG NÀY RA ĐỂ KIỂM TRA
 
-    // ======== 2 DÒNG QUAN TRỌNG VỪA THÊM VÀO ========
-    // Bắt buộc cập nhật biến isPlaying và bắn pháo sáng báo cho QML biết để đổi icon!
-    m_isPlaying = true;
-    emit isPlayingChanged(m_isPlaying);
+    if (isVideo) {
+        // NẾU LÀ MP4: Bắt Backend C++ câm mồm! Để dành đường tiếng + hình cho PlayerView QML lo.
+        if (m_engine->player()) {
+            m_engine->player()->pause(); // Tắt luồng audio C++
+        }
+        m_isPlaying = false; // Báo UI là audio backend đang nghỉ khỏe
+        emit isPlayingChanged(m_isPlaying);
+    } else {
+        // NẾU LÀ MP3: Set đường dẫn và phát quẩy tung nóc như bình thường
+        m_engine->player()->playUrl(QUrl::fromLocalFile(filePath));
+        m_isPlaying = true;
+        emit isPlayingChanged(m_isPlaying);
+    }
 }
 
 void PlaybackController::togglePlayPause() {
     if (!m_engine || !m_engine->player()) return;
+
+    // Check xem bài hiện tại có phải video không, nếu là video thì nút này trên backend đéo có tác dụng
+    QVariantMap trackData = m_engine->model()->getTrackData(m_currentIndex);
+    if (trackData["isVideo"].toBool()) {
+        return;
+    }
 
     if (m_isPlaying) {
         // Đang phát -> Ra lệnh Pause
@@ -41,22 +56,15 @@ void PlaybackController::togglePlayPause() {
         m_isPlaying = false;
     } else {
         // Đang dừng -> Muốn phát tiếp
-
-        // KIỂM TRA ĐIỀU KIỆN 1: Mới mở app (Chưa có bài nào được nạp, duration = 0)
         if (m_engine->player()->duration() == 0 && m_engine->model()->rowCount(QModelIndex()) > 0) {
-            // Ép nó load thẳng bài hát đầu tiên trong danh sách USB
             playTrack(m_currentIndex >= 0 ? m_currentIndex : 0);
-            return; // Đã gọi playTrack thì nó tự xử lý isPlaying rồi, thoát luôn!
-        }
-        // KIỂM TRA ĐIỀU KIỆN 2: Đã có bài hát đang tạm dừng
-        else {
-            // Chỉ việc gọi hàm play() (Resume) vừa tạo ở Bước 1
+            return;
+        } else {
             m_engine->player()->play();
             m_isPlaying = true;
         }
     }
 
-    // Bắn tín hiệu lên QML để đổi icon nút bấm
     emit isPlayingChanged(m_isPlaying);
 }
 
@@ -65,9 +73,8 @@ void PlaybackController::next() {
     int total = m_engine->model()->rowCount(QModelIndex());
     if (total == 0) return;
 
-    int nextIndex = (m_currentIndex + 1) % total; // Xoay vòng về bài đầu khi hết danh sách
+    int nextIndex = (m_currentIndex + 1) % total;
     playTrack(nextIndex);
-
 }
 
 void PlaybackController::previous() {

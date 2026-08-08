@@ -1,12 +1,13 @@
 #include "UsbScanner.h"
 #include <QDirIterator>
 #include <QFileInfo>
+#ifndef Q_OS_ANDROID
 #include <taglib/fileref.h>
-#include <taglib/audioproperties.h>
 #include <taglib/tag.h>
 #include <taglib/mpegfile.h>
 #include <taglib/id3v2tag.h>
 #include <taglib/attachedpictureframe.h>
+#endif
 #include <QDir>
 #include <QStandardPaths>
 #include <QPainter>
@@ -32,16 +33,18 @@ void UsbScanner::scanDirectory(const QString &path) {
         QString ext = fileInfo.suffix().toLower();
         track.isVideo = (ext == "mp4" || ext == "mkv" || ext == "avi");
 
-        // 2. BÓC THỜI LƯỢNG (Dùng FileRef chung cho cả Audio lẫn Video)
+        // 2. BÓC THỜI LƯỢNG (Chỉ dùng TagLib trên Linux/Windows)
+        track.duration = 0; // Android tạm thời gán 0
+#ifndef Q_OS_ANDROID
         TagLib::FileRef f(track.filePath.toUtf8().constData());
         if (!f.isNull() && f.audioProperties()) {
             track.duration = f.audioProperties()->lengthInMilliseconds();
-        } else {
-            track.duration = 0;
         }
+#endif
 
-        // 3. BÓC METADATA & COVER ART (CHỈ CHẠY CHO FILE MP3)
+        // 3. BÓC METADATA & COVER ART (Cũng bọc lại đéo cho Android chạy)
         if (ext == "mp3") {
+#ifndef Q_OS_ANDROID
             TagLib::MPEG::File mpegFile(track.filePath.toUtf8().constData());
 
             if (mpegFile.isValid()) {
@@ -100,6 +103,7 @@ void UsbScanner::scanDirectory(const QString &path) {
                     }
                 }
             }
+#endif
         }
 
         // 4. FALLBACK TÊN CA SĨ

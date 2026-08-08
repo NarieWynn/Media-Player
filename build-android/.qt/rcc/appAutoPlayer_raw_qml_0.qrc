@@ -1,0 +1,17 @@
+<RCC>
+  <qresource prefix="/qt/qml/app_id/">
+    <file alias="ui/main.qml">/home/nariewynn/Projects/AutoPlayer/ui/main.qml</file>
+    <file alias="ui/components/SideBar.qml">/home/nariewynn/Projects/AutoPlayer/ui/components/SideBar.qml</file>
+    <file alias="ui/components/CustomSlider.qml">/home/nariewynn/Projects/AutoPlayer/ui/components/CustomSlider.qml</file>
+    <file alias="ui/components/PlaybackControls.qml">/home/nariewynn/Projects/AutoPlayer/ui/components/PlaybackControls.qml</file>
+    <file alias="ui/components/TrackDelegate.qml">/home/nariewynn/Projects/AutoPlayer/ui/components/TrackDelegate.qml</file>
+    <file alias="ui/views/PlayerView.qml">/home/nariewynn/Projects/AutoPlayer/ui/views/PlayerView.qml</file>
+    <file alias="ui/views/MediaLibraryView.qml">/home/nariewynn/Projects/AutoPlayer/ui/views/MediaLibraryView.qml</file>
+    <file alias="ui/views/SettingsView.qml">/home/nariewynn/Projects/AutoPlayer/ui/views/SettingsView.qml</file>
+    <file alias="ui/views/VideoPlayerView.qml">/home/nariewynn/Projects/AutoPlayer/ui/views/VideoPlayerView.qml</file>
+    <file alias="assets/doge.png">/home/nariewynn/Projects/AutoPlayer/assets/doge.png</file>
+    <file alias="assets/doge2.png">/home/nariewynn/Projects/AutoPlayer/assets/doge2.png</file>
+    <file alias="assets/vinyl.png">/home/nariewynn/Projects/AutoPlayer/assets/vinyl.png</file>
+  </qresource>
+</RCC>
+

@@ -1,0 +1,75 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Android SDK & NDK
+        uses: android-actions/setup-android@v3
+        with:
+          cmdline-tools-version: 2526393
+          accept-android-sdk-licenses: true
+
+      - name: Install Android SDK 34 & NDK 26
+        run: |
+          sdkmanager --install "platforms;android-34" "build-tools;34.0.0" "ndk;26.0.10792818"
+
+      - name: Install Qt 6.7.2 for Android & Linux Desktop
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.7.2'
+          target: 'android'
+          arch: 'android_arm64_v8a'
+          modules: 'qtmultimedia'
+
+      - name: Install Qt 6.7.2 Host (Desktop)
+        uses: jurplel/install-qt-action@v4
+        with:
+          version: '6.7.2'
+          target: 'desktop'
+          arch: 'gcc_64'
+          dir: '${{ runner.temp }}/qt_host'
+
+      - name: Configure CMake
+        run: |
+          mkdir build-android && cd build-android
+          qt-cmake .. \
+            -DQT_HOST_PATH=${{ runner.temp }}/qt_host/Qt/6.7.2/gcc_64 \
+            -DANDROID_SDK_ROOT=$ANDROID_SDK_ROOT \
+            -DANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/26.0.10792818 \
+            -DANDROID_ABI=arm64-v8a \
+            -DANDROID_PLATFORM=android-34 \
+            -DCMAKE_BUILD_TYPE=Release
+
+      - name: Force Android Compile SDK 34 in Gradle
+        run: |
+          sed -i 's/compileSdkVersion 33/compileSdkVersion 34/g' build-android/android-build/build.gradle || true
+          sed -i 's/targetSdkVersion 33/targetSdkVersion 34/g' build-android/android-build/build.gradle || true
+
+      - name: Build APK with CMake
+        run: |
+          cd build-android
+          cmake --build . --target apk
+
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AutoPlayer-Android-APK
+          path: build-android/android-build/build/outputs/apk/*/*.apk

@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="/qt/qml/app_id">/home/nariewynn/Projects/AutoPlayer/build-android/app_id</file>
+
+  </qresource>
+</RCC>

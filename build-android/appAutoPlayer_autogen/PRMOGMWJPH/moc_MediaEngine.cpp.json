@@ -1,0 +1,48 @@
+{
+    "classes": [
+        {
+            "className": "MediaEngine",
+            "methods": [
+                {
+                    "access": "public",
+                    "name": "player",
+                    "returnType": "MediaPlayer*"
+                }
+            ],
+            "object": true,
+            "qualifiedClassName": "MediaEngine",
+            "slots": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "path",
+                            "type": "QString"
+                        }
+                    ],
+                    "name": "startScan",
+                    "returnType": "void"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "index",
+                            "type": "int"
+                        }
+                    ],
+                    "name": "playTrackIndex",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "MediaEngine.h",
+    "outputRevision": 68
+}

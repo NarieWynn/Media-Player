@@ -1,0 +1,10 @@
+-I
+/home/nariewynn/Projects/AutoPlayer/build-android
+-I
+/home/nariewynn/Qt/6.7.2/android_arm64_v8a/./qml
+--resource
+/home/nariewynn/Projects/AutoPlayer/build-android/.qt/rcc/qmake_app_id.qrc
+--resource
+/home/nariewynn/Projects/AutoPlayer/build-android/.qt/rcc/appAutoPlayer_raw_qml_0.qrc
+--module
+app_id

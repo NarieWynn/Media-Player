@@ -1,0 +1,12 @@
+module app_id
+typeinfo appAutoPlayer.qmltypes
+prefer :/qt/qml/app_id/
+SideBar 1.0 ui/components/SideBar.qml
+CustomSlider 1.0 ui/components/CustomSlider.qml
+PlaybackControls 1.0 ui/components/PlaybackControls.qml
+TrackDelegate 1.0 ui/components/TrackDelegate.qml
+PlayerView 1.0 ui/views/PlayerView.qml
+MediaLibraryView 1.0 ui/views/MediaLibraryView.qml
+SettingsView 1.0 ui/views/SettingsView.qml
+VideoPlayerView 1.0 ui/views/VideoPlayerView.qml
+

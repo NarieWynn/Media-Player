@@ -4,15 +4,34 @@
 #include "src/core/MediaEngine.h"
 #include "src/controllers/PlaybackController.h"
 #include "src/controllers/SettingsController.h"
-
+#include <QDir>
 using namespace Qt::StringLiterals;
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
 
     // 1. Khởi tạo mớ Backend
     MediaEngine engine;
-    engine.startScan("/home/nariewynn/Music/mp3");
-    engine.startScan("/home/nariewynn/Music/mp4");
+    QString username = qgetenv("USER");
+    if (username.isEmpty()) username = qgetenv("LOGNAME");
+
+    QString mediaBasePath = "/run/media/" + username;
+    QDir mediaBaseDir(mediaBasePath);
+
+    if (mediaBaseDir.exists()) {
+        // Lấy danh sách toàn bộ USB đang cắm
+        QStringList usbFolders = mediaBaseDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+
+        for (const QString &usbName : usbFolders) {
+            QString fullUsbPath = mediaBaseDir.absoluteFilePath(usbName);
+            qDebug() << "🔌 Phát hiện USB:" << fullUsbPath;
+
+            // Quét tự động không quan tâm tên USB là MUSIC hay MP3 hay gì cả
+            engine.startScan(fullUsbPath);
+        }
+    } else {
+        qWarning() << "⚠️ Không tìm thấy thư mục mount USB:" << mediaBasePath;
+    }
+
     PlaybackController playbackController(&engine);
     SettingsController settingsController;
 

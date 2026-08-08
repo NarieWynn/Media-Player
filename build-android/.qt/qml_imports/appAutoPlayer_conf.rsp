@@ -1,0 +1,14 @@
+-rootPath
+/home/nariewynn/Projects/AutoPlayer
+-cmake-output
+-output-file
+/home/nariewynn/Projects/AutoPlayer/build-android/.qt/qml_imports/appAutoPlayer_conf.cmake
+-importPath
+/home/nariewynn/Projects/AutoPlayer/build-android/app_id
+-importPath
+/home/nariewynn/Projects/AutoPlayer/build-android
+-importPath
+/home/nariewynn/Qt/6.7.2/android_arm64_v8a/./qml
+-qrcFiles
+/home/nariewynn/Projects/AutoPlayer/build-android/.qt/rcc/qmake_app_id.qrc
+/home/nariewynn/Projects/AutoPlayer/build-android/.qt/rcc/appAutoPlayer_raw_qml_0.qrc

@@ -1,0 +1,13 @@
+--resource
+/home/nariewynn/Projects/AutoPlayer/build-android/.qt/rcc/qmake_app_id.qrc
+--resource
+/home/nariewynn/Projects/AutoPlayer/build-android/.qt/rcc/appAutoPlayer_raw_qml_0.qrc
+/qt/qml/app_id/ui/main.qml
+/qt/qml/app_id/ui/components/SideBar.qml
+/qt/qml/app_id/ui/components/CustomSlider.qml
+/qt/qml/app_id/ui/components/PlaybackControls.qml
+/qt/qml/app_id/ui/components/TrackDelegate.qml
+/qt/qml/app_id/ui/views/PlayerView.qml
+/qt/qml/app_id/ui/views/MediaLibraryView.qml
+/qt/qml/app_id/ui/views/SettingsView.qml
+/qt/qml/app_id/ui/views/VideoPlayerView.qml

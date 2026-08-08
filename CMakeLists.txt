@@ -5,11 +5,15 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Multimedia)
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(TAGLIB REQUIRED taglib)
 
-# Thêm đường dẫn header
-include_directories(${TAGLIB_INCLUDE_DIRS})
+# --- CHỈ TÌM VÀ DÙNG TAGLIB NẾU KHÔNG PHẢI ANDROID ---
+if(NOT ANDROID)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(TAGLIB REQUIRED taglib)
+    include_directories(${TAGLIB_INCLUDE_DIRS})
+endif()
+# -----------------------------------------------------
+
 qt_standard_project_setup()
 qt_policy(SET QTP0001 NEW)
 
@@ -55,5 +59,10 @@ target_link_libraries(appAutoPlayer PRIVATE
         Qt6::Qml
         Qt6::Quick
         Qt6::Multimedia
-        ${TAGLIB_LIBRARIES}
 )
+
+# --- CHỈ LINK TAGLIB NẾU KHÔNG PHẢI ANDROID ---
+if(NOT ANDROID)
+    target_link_libraries(appAutoPlayer PRIVATE ${TAGLIB_LIBRARIES})
+endif()
+# ----------------------------------------------set_property(TARGET appAutoPlayer PROPERTY QT_ANDROID_TARGET_SDK_VERSION 34)
