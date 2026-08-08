@@ -39,8 +39,7 @@ jobs:
 
       - name: Configure CMake
         run: |
-          mkdir build-android && cd build-android
-          $HOME/Qt/6.7.2/android_arm64_v8a/bin/qt-cmake .. \
+          $HOME/Qt/6.7.2/android_arm64_v8a/bin/qt-cmake -S . -B build-ci \
             -DQT_HOST_PATH=$HOME/Qt/6.7.2/gcc_64 \
             -DANDROID_SDK_ROOT=$ANDROID_SDK_ROOT \
             -DANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk-bundle \
@@ -48,13 +47,17 @@ jobs:
             -DANDROID_PLATFORM=android-34 \
             -DCMAKE_BUILD_TYPE=Release
 
+      - name: Force Android Compile SDK 34 in Gradle
+        run: |
+          sed -i 's/compileSdkVersion 33/compileSdkVersion 34/g' build-ci/android-build/build.gradle || true
+          sed -i 's/targetSdkVersion 33/targetSdkVersion 34/g' build-ci/android-build/build.gradle || true
+
       - name: Build APK
         run: |
-          cd build-android
-          cmake --build . --target apk
+          cmake --build build-ci --target apk
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: AutoPlayer-Android-APK
-          path: build-android/android-build/build/outputs/apk/*/*.apk
+          path: build-ci/android-build/build/outputs/apk/*/*.apk
