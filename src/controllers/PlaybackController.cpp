@@ -91,3 +91,22 @@ void PlaybackController::seek(qint64 position) {
         m_engine->player()->setPosition(position);
     }
 }
+
+// Thêm đoạn này vào cuối file PlaybackController.cpp:
+
+QString PlaybackController::formatTime(qint64 milliseconds) {
+    qint64 totalSeconds = milliseconds / 1000;
+    qint64 seconds = totalSeconds % 60;
+    qint64 minutes = (totalSeconds / 60) % 60;
+    qint64 hours = totalSeconds / 3600;
+
+    if (hours > 0) {
+        return QString("%1:%2:%3")
+            .arg(hours, 2, 10, QChar('0'))
+            .arg(minutes, 2, 10, QChar('0'))
+            .arg(seconds, 2, 10, QChar('0'));
+    }
+    return QString("%1:%2")
+        .arg(minutes, 2, 10, QChar('0'))
+        .arg(seconds, 2, 10, QChar('0'));
+}

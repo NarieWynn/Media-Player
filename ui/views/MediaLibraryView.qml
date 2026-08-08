@@ -51,7 +51,7 @@ Item {
             Item { Layout.fillWidth: true }
 
             Text {
-                text: mediaModel ? mediaModel.rowCount() + " Items" : "0 Items"
+                text: mediaList.count + " Items"
                 color: "#5A5A5A"
                 font.pixelSize: 18
             }

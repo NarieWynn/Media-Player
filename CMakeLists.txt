@@ -51,6 +51,7 @@ qt_add_qml_module(appAutoPlayer
         assets/doge.png
         assets/doge2.png
         assets/vinyl.png
+        assets/default_cover.png
 )
 
 target_link_libraries(appAutoPlayer PRIVATE

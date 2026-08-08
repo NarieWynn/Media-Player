@@ -14,7 +14,7 @@ public:
 
     [[nodiscard]] int currentIndex() const { return m_currentIndex; }
     [[nodiscard]] bool isPlaying() const { return m_isPlaying; }
-
+    Q_INVOKABLE QString formatTime(qint64 milliseconds);
 public slots:
     void playTrack(int index);
     void togglePlayPause();

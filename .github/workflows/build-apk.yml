@@ -56,26 +56,28 @@ jobs:
             -DANDROID_PLATFORM=android-28 \
             -DCMAKE_BUILD_TYPE=Release
 
-      - name: Force Min SDK 28 & Auto Sign APK
+      - name: Force Min SDK 28 & Generate Keystore
         run: |
-          # 1. Ép minSdkVersion về 28 (Android 9) cho vừa khít xe của mày
+          # 1. Ép minSdkVersion về 28 (Android 9 cho xe)
           sed -i 's/minSdkVersion .*/minSdkVersion 28/g' build-ci/android-build/build.gradle || true
           
-          # 2. Tạo debug keystore nếu chưa có
+          # 2. Tạo Debug Keystore trực tiếp trên Runner
           keytool -genkey -v -keystore $HOME/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US" || true
 
       - name: Build APK
         run: |
           cmake --build build-ci --target apk
 
-      - name: Sign APK with apksigner
+      - name: Sign APK with apksigner (ĐÓNG DẤU SIGNED)
         run: |
-          # Tìm file apk unsigned vùa build xong và ký trực tiếp
-          APK_PATH=$(find build-ci/android-build/ -name "*.apk" | head -n 1)
-          $ANDROID_SDK_ROOT/build-tools/34.0.0/apksigner sign --ks $HOME/debug.keystore --ks-pass pass:android $APK_PATH
+          # Tìm file APK vừa build và tiến hành ký
+          ORIGINAL_APK=$(find build-ci/android-build/ -name "*.apk" | head -n 1)
+          SIGNED_APK="build-ci/android-build/AutoPlayer-Android9-Signed.apk"
+          
+          $ANDROID_SDK_ROOT/build-tools/34.0.0/apksigner sign --ks $HOME/debug.keystore --ks-pass pass:android --out $SIGNED_APK $ORIGINAL_APK
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: AutoPlayer-Android9-Signed-APK
-          path: build-ci/android-build/build/outputs/apk/*/*.apk
+          name: AutoPlayer-Android9-Signed
+          path: build-ci/android-build/AutoPlayer-Android9-Signed.apk
