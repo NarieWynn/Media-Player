@@ -21,49 +21,34 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Set up Android SDK & NDK
-        uses: android-actions/setup-android@v3
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          cmdline-tools-version: 2526393
-          accept-android-sdk-licenses: true
+          python-version: '3.x'
 
-      - name: Install Android SDK 34 & NDK 26
+      - name: Install aqtinstall
         run: |
-          sdkmanager --install "platforms;android-34" "build-tools;34.0.0" "ndk;26.0.10792818"
+          python -m pip install --upgrade pip
+          pip install aqtinstall
 
-      - name: Install Qt 6.7.2 for Android & Linux Desktop
-        uses: jurplel/install-qt-action@v4
-        with:
-          version: '6.7.2'
-          target: 'android'
-          arch: 'android_arm64_v8a'
-          modules: 'qtmultimedia'
-
-      - name: Install Qt 6.7.2 Host (Desktop)
-        uses: jurplel/install-qt-action@v4
-        with:
-          version: '6.7.2'
-          target: 'desktop'
-          arch: 'gcc_64'
-          dir: '${{ runner.temp }}/qt_host'
+      - name: Install Qt 6.7.2 Android & Desktop
+        run: |
+          mkdir -p $HOME/Qt
+          python -m aqt install-qt linux android 6.7.2 android_arm64_v8a -O $HOME/Qt -m qtmultimedia
+          python -m aqt install-qt linux desktop 6.7.2 linux_gcc_64 -O $HOME/Qt
 
       - name: Configure CMake
         run: |
           mkdir build-android && cd build-android
-          qt-cmake .. \
-            -DQT_HOST_PATH=${{ runner.temp }}/qt_host/Qt/6.7.2/gcc_64 \
+          $HOME/Qt/6.7.2/android_arm64_v8a/bin/qt-cmake .. \
+            -DQT_HOST_PATH=$HOME/Qt/6.7.2/gcc_64 \
             -DANDROID_SDK_ROOT=$ANDROID_SDK_ROOT \
-            -DANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk/26.0.10792818 \
+            -DANDROID_NDK_ROOT=$ANDROID_SDK_ROOT/ndk-bundle \
             -DANDROID_ABI=arm64-v8a \
             -DANDROID_PLATFORM=android-34 \
             -DCMAKE_BUILD_TYPE=Release
 
-      - name: Force Android Compile SDK 34 in Gradle
-        run: |
-          sed -i 's/compileSdkVersion 33/compileSdkVersion 34/g' build-android/android-build/build.gradle || true
-          sed -i 's/targetSdkVersion 33/targetSdkVersion 34/g' build-android/android-build/build.gradle || true
-
-      - name: Build APK with CMake
+      - name: Build APK
         run: |
           cd build-android
           cmake --build . --target apk
