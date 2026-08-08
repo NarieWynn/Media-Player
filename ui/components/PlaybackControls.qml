@@ -6,21 +6,18 @@ RowLayout {
     id: root
     spacing: 30
 
-    // Các trạng thái để View cha (PlayerView) truyền vào
     property bool isPlaying: false
     property bool isShuffle: false
     property bool isRepeat: false
 
-    // Khai báo các tín hiệu (signals) để báo cho C++ Backend hoặc View cha biết mà xử lý
     signal playPauseClicked()
     signal nextClicked()
     signal prevClicked()
     signal shuffleClicked()
     signal repeatClicked()
 
-    // 1. Nút Shuffle (Ngẫu nhiên)
     Button {
-        Layout.alignment: Qt.AlignVCenter // Căn giữa theo trục dọc
+        Layout.alignment: Qt.AlignVCenter
         implicitWidth: 56
         implicitHeight: 56
         background: Rectangle {
@@ -28,7 +25,6 @@ RowLayout {
         }
         contentItem: Text {
             text: "🔀"
-            // Bật thì trắng sáng, tắt thì xám chìm đi
             color: root.isShuffle ? "#FFFFFF" : "#4A4A4A"
             font.pixelSize: 24
             horizontalAlignment: Text.AlignHCenter
@@ -40,14 +36,12 @@ RowLayout {
         }
     }
 
-    // 2. Nút Previous (Bài trước)
     Button {
         Layout.alignment: Qt.AlignVCenter
         implicitWidth: 72
         implicitHeight: 72
         background: Rectangle {
             radius: 36
-            // Bấm vào thì nháy nền xám đậm
             color: parent.pressed ? "#2A2A2A" : "transparent"
         }
         contentItem: Text {
@@ -60,25 +54,21 @@ RowLayout {
         onClicked: root.prevClicked()
     }
 
-    // 3. Nút Play / Pause (TRUNG TÂM - QUAN TRỌNG NHẤT)
     Button {
         Layout.alignment: Qt.AlignVCenter
         implicitWidth: 96
         implicitHeight: 96
         background: Rectangle {
             radius: 48
-            // Nền trắng chuẩn Vortex, bấm vào hơi ngả xám
             color: parent.pressed ? "#D0D0D0" : "#FFFFFF"
         }
         contentItem: Text {
             text: root.isPlaying ? "❚❚" : "▶"
-            // Icon đen nổi bần bật trên nền trắng
             color: "#000000"
             font.pixelSize: 36
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
         }
-        // Thêm scale nhẹ khi ấn cho nó có cảm giác vật lý (Haptic UI)
         scale: pressed ? 0.92 : 1.0
         Behavior on scale { NumberAnimation { duration: 100 } }
 
@@ -87,7 +77,6 @@ RowLayout {
         }
     }
 
-    // 4. Nút Next (Bài tiếp theo)
     Button {
         Layout.alignment: Qt.AlignVCenter
         implicitWidth: 72
@@ -106,7 +95,6 @@ RowLayout {
         onClicked: root.nextClicked()
     }
 
-    // 5. Nút Repeat (Lặp lại)
     Button {
         Layout.alignment: Qt.AlignVCenter
         implicitWidth: 56

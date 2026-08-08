@@ -76,6 +76,7 @@ QVariantMap MediaModel::getTrackData(int index) const {
         map["title"] = track.title;
         map["artist"] = track.artist;
         map["album"] = track.album;
+        map["coverArt"] = track.coverArt;
         map["duration"] = track.duration;
         map["formattedDuration"] = track.formattedDuration();
     }

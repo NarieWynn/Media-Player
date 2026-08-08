@@ -5,7 +5,11 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick Multimedia)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(TAGLIB REQUIRED taglib)
 
+# Thêm đường dẫn header
+include_directories(${TAGLIB_INCLUDE_DIRS})
 qt_standard_project_setup()
 qt_policy(SET QTP0001 NEW)
 
@@ -42,6 +46,7 @@ qt_add_qml_module(appAutoPlayer
         RESOURCES
         assets/doge.png
         assets/doge2.png
+        assets/vinyl.png
 )
 
 target_link_libraries(appAutoPlayer PRIVATE
@@ -50,4 +55,5 @@ target_link_libraries(appAutoPlayer PRIVATE
         Qt6::Qml
         Qt6::Quick
         Qt6::Multimedia
+        ${TAGLIB_LIBRARIES}
 )

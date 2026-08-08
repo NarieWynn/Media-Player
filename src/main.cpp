@@ -1,7 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-
 #include "src/core/MediaEngine.h"
 #include "src/controllers/PlaybackController.h"
 #include "src/controllers/SettingsController.h"

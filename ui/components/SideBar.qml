@@ -5,9 +5,8 @@ import QtQuick.Layouts
 Rectangle {
     id: root
     width: 100
-    color: "#0A0A0C" // Nền đen hun hút
+    color: "#0A0A0C"
 
-    // Viền phải mờ mờ tạo cảm giác phân cách không gian với màn hình chính
     Rectangle {
         width: 1
         height: parent.height
@@ -15,7 +14,6 @@ Rectangle {
         color: "#2A2A2A"
     }
 
-    // Biến lưu trạng thái tab đang chọn (0: Player, 1: Library, 2: Settings)
     property int currentIndex: 0
     signal tabClicked(int index)
 
@@ -26,7 +24,6 @@ Rectangle {
         anchors.bottomMargin: 30
         spacing: 40
 
-        // Logo app / Nút Home (Trắng bóc, icon đen)
         Item {
             Layout.alignment: Qt.AlignHCenter
             Layout.preferredWidth: 60
@@ -41,7 +38,7 @@ Rectangle {
 
                 Text {
                     anchors.centerIn: parent
-                    text: "V" // Chữ V (Vortex)
+                    text: "V"
                     color: "#000000"
                     font.pixelSize: 24
                     font.bold: true
@@ -49,9 +46,7 @@ Rectangle {
             }
         }
 
-        Item { Layout.fillHeight: true } // Spacer đẩy menu ra giữa
-
-        // Vòng lặp tạo 3 nút điều hướng
+        Item { Layout.fillHeight: true }
         Repeater {
             model: [
                 { icon: "♫", label: "Player" },
@@ -60,7 +55,6 @@ Rectangle {
             ]
 
             delegate: Rectangle {
-                // Tối ưu chuẩn Qt6: Khai báo tường minh index và modelData
                 required property int index
                 required property var modelData
 
@@ -69,10 +63,8 @@ Rectangle {
                 Layout.preferredHeight: 70
                 radius: 16
 
-                // Trạng thái: Đang chọn thì xám nhạt, bình thường trong suốt, bấm vào xám đậm
                 color: root.currentIndex === index ? "#202020" : (mouseArea.pressed ? "#151515" : "transparent")
 
-                // Indicator line: Vạch chỉ thị bên trái cho tab đang chọn
                 Rectangle {
                     width: 4
                     height: 30
@@ -83,11 +75,9 @@ Rectangle {
                     visible: root.currentIndex === index
                 }
 
-                // Icon của tab
                 Text {
                     anchors.centerIn: parent
                     text: modelData.icon
-                    // Đang ở tab nào thì icon trắng sáng, tab khác bị làm mờ (xám)
                     color: root.currentIndex === index ? "#FFFFFF" : "#5A5A5A"
                     font.pixelSize: 32
                 }
@@ -96,17 +86,16 @@ Rectangle {
                     id: mouseArea
                     anchors.fill: parent
                     onClicked: {
-                        root.currentIndex = parent.index // Trỏ đúng vào index của delegate
+                        root.currentIndex = parent.index
                         root.tabClicked(parent.index)
                     }
                 }
 
-                // Hiệu ứng scale vật lý khi ấn
                 scale: mouseArea.pressed ? 0.9 : 1.0
                 Behavior on scale { NumberAnimation { duration: 100 } }
             }
         }
 
-        Item { Layout.fillHeight: true } // Spacer đẩy phần còn lại xuống đáy
+        Item { Layout.fillHeight: true }
     }
 }

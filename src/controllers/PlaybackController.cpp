@@ -11,6 +11,7 @@ PlaybackController::PlaybackController(MediaEngine *engine, QObject *parent)
                 emit isPlayingChanged(m_isPlaying);
             }
         });
+        connect(m_engine->player(), &MediaPlayer::mediaFinished, this, &PlaybackController::next);
     }
 }
 
@@ -66,6 +67,7 @@ void PlaybackController::next() {
 
     int nextIndex = (m_currentIndex + 1) % total; // Xoay vòng về bài đầu khi hết danh sách
     playTrack(nextIndex);
+
 }
 
 void PlaybackController::previous() {

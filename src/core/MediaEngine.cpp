@@ -8,6 +8,7 @@ MediaEngine::MediaEngine(QObject *parent) : QObject(parent) {
 
     // Tự động đấu nối: Scanner quét ra bài nào -> Ném ngay vào Model bài đó
     connect(m_scanner, &UsbScanner::trackFound, m_model, &MediaModel::addTrack);
+
 }
 
 void MediaEngine::startScan(const QString &path) {

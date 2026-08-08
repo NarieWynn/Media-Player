@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import "../components" // Lôi CustomSlider ra xài cho phần Âm lượng
+import "../components"
 
 Item {
     id: root
@@ -12,9 +12,7 @@ Item {
         anchors.fill: parent
         anchors.margins: 40
         contentHeight: contentLayout.height
-        clip: true // Chặn không cho cuộn văng ra khỏi mép
-
-        // Ẩn thanh cuộn nếu không cần thiết
+        clip: true
         ScrollBar.vertical: ScrollBar {
             active: true
             contentItem: Rectangle { implicitWidth: 6; radius: 3; color: "#4A4A4A" }
@@ -50,8 +48,6 @@ Item {
                     height: 1
                     color: "#2A2A2A"
                 }
-
-                // 1. Công tắc: Tự động phát nhạc khi cắm USB (Móc vào C++)
                 RowLayout {
                     Layout.fillWidth: true
 
@@ -64,7 +60,6 @@ Item {
 
                     Switch {
                         id: autoPlaySwitch
-                        // Đồng bộ trạng thái 2 chiều với C++ SettingsController
                         checked: settingsController ? settingsController.autoPlayOnInsert : true
                         onCheckedChanged: {
                             if (settingsController && settingsController.autoPlayOnInsert !== checked) {
@@ -72,7 +67,6 @@ Item {
                             }
                         }
 
-                        // Custom lại cái Switch cho bự và ra chất Monochrome
                         indicator: Rectangle {
                             implicitWidth: 64
                             implicitHeight: 32
@@ -93,9 +87,7 @@ Item {
                     }
                 }
 
-                Item { Layout.preferredHeight: 10 } // Spacer
-
-                // 2. Chỉnh đường dẫn thư mục quét USB (Móc vào C++)
+                Item { Layout.preferredHeight: 10 }
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 20
@@ -121,7 +113,7 @@ Item {
                 }
             }
 
-            Item { Layout.preferredHeight: 10 } // Spacer
+            Item { Layout.preferredHeight: 10 }
 
             // ================= SECTION 2: GIAO DIỆN & ÂM THANH =================
             ColumnLayout {
@@ -141,7 +133,6 @@ Item {
                     color: "#2A2A2A"
                 }
 
-                // Công tắc: Dark Mode (Móc vào C++)
                 RowLayout {
                     Layout.fillWidth: true
 
@@ -177,7 +168,6 @@ Item {
 
                 Item { Layout.preferredHeight: 10 }
 
-                // Slider chỉnh âm lượng (Móc trực tiếp vào MediaPlayer qua playbackController)
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: 20

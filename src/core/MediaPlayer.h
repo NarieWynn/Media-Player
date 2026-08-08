@@ -35,6 +35,7 @@ signals:
     void durationChanged(qint64 duration);
     void playbackStateChanged(QMediaPlayer::PlaybackState state);
     void volumeChanged(float volume);
+    void mediaFinished();
 private:
     QMediaPlayer *m_player{nullptr};
     QAudioOutput *m_audioOutput{nullptr};

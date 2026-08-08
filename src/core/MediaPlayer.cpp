@@ -14,6 +14,11 @@ MediaPlayer::MediaPlayer(QObject *parent) : QObject(parent) {
         m_duration = dur;
         emit durationChanged(dur);
     });
+    connect(m_player, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
+    if (status == QMediaPlayer::EndOfMedia) {
+        emit mediaFinished(); // Bắn pháo sáng báo ra ngoài là tao hát xong rồi!
+    }
+});
 }
 
 void MediaPlayer::playUrl(const QUrl &url) {
