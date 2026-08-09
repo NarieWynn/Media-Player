@@ -22,8 +22,7 @@ Rectangle {
         anchors.margins: 10
         anchors.topMargin: 30
         anchors.bottomMargin: 30
-        spacing: 40
-
+        spacing: 0
         Item {
             Layout.alignment: Qt.AlignHCenter
             Layout.preferredWidth: 60
@@ -36,22 +35,24 @@ Rectangle {
                 radius: 24
                 color: "#FFFFFF"
 
-                Text {
+                Image {
                     anchors.centerIn: parent
-                    text: "V"
-                    color: "#000000"
-                    font.pixelSize: 24
-                    font.bold: true
+                    width: 28; height: 28
+                    sourceSize.width: 128; sourceSize.height: 128
+                    source: "qrc:/qt/qml/app_id/assets/doge.png"
+                    fillMode: Image.PreserveAspectFit
+                    smooth: true; mipmap: true
                 }
             }
         }
 
-        Item { Layout.fillHeight: true }
+        Item { Layout.preferredHeight: 10 }
+
         Repeater {
             model: [
                 { icon: "♫", label: "Player" },
                 { icon: "☰", label: "Library" },
-                { icon: "⚙", label: "Settings" }
+                //{ icon: "⚙", label: "Settings" }
             ]
 
             delegate: Rectangle {
@@ -60,7 +61,7 @@ Rectangle {
 
                 Layout.alignment: Qt.AlignHCenter
                 Layout.preferredWidth: 70
-                Layout.preferredHeight: 70
+                Layout.fillHeight: true
                 radius: 16
 
                 color: root.currentIndex === index ? "#202020" : (mouseArea.pressed ? "#151515" : "transparent")
@@ -96,6 +97,6 @@ Rectangle {
             }
         }
 
-        Item { Layout.fillHeight: true }
+        Item { Layout.preferredHeight: 10 }
     }
 }

@@ -54,10 +54,10 @@ Window {
                 }
             }
 
-            SettingsView {
+            /*SettingsView {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-            }
+            }*/
         }
     }
 

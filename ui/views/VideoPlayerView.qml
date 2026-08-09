@@ -76,7 +76,7 @@ Item {
         Rectangle {
             id: controlsOverlay
             anchors.fill: parent
-            color: "#80000000"
+            color: "transparent"
             visible: true
 
             Timer {
@@ -100,96 +100,126 @@ Item {
                 width: parent.width - 40
             }
 
-            // ======== CỤM 3 NÚT: PREV - PLAY/PAUSE - NEXT ========
-            RowLayout {
-                anchors.centerIn: parent
-                spacing: 40
-
-                // Nút Previous
-                Rectangle {
-                    Layout.alignment: Qt.AlignVCenter // <-- THÊM DÒNG NÀY ĐỂ ÉP CĂN GIỮA
-                    width: 56; height: 56; radius: 28; color: "#CCFFFFFF"
-
-                    Text { anchors.centerIn: parent; text: "⏮"; font.pixelSize: 24; color: "#000000" }
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            if (playbackController) playbackController.previous();
-                            autoHideTimer.restart();
-                        }
-                    }
-                }
-
-                // Nút Play / Pause
-                Rectangle {
-                    Layout.alignment: Qt.AlignVCenter // <-- THÊM DÒNG NÀY ĐỂ ÉP CĂN GIỮA
-                    width: 72; height: 72; radius: 36; color: "#CCFFFFFF"
-
-                    Text { anchors.centerIn: parent; text: root.isPlaying ? "⏸" : "▶"; font.pixelSize: 32; color: "#000000" }
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            if (root.isPlaying) {
-                                root.pauseVideo();
-                            } else {
-                                root.playVideo();
-                            }
-                            autoHideTimer.restart();
-                        }
-                    }
-                }
-
-                // Nút Next
-                Rectangle {
-                    Layout.alignment: Qt.AlignVCenter // <-- THÊM DÒNG NÀY ĐỂ ÉP CĂN GIỮA
-                    width: 56; height: 56; radius: 28; color: "#CCFFFFFF"
-
-                    Text { anchors.centerIn: parent; text: "⏭"; font.pixelSize: 24; color: "#000000" }
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            if (playbackController) playbackController.next();
-                            autoHideTimer.restart();
-                        }
-                    }
-                }
-            }
-
             // Thanh Progress Tua Video Phía Dưới
-            ColumnLayout {
+            Rectangle {
                 anchors.bottom: parent.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.margins: 20
-                spacing: 10
 
-                RowLayout {
-                    Layout.fillWidth: true
-                    spacing: 15
+                // Khóa chiều cao cố định cho cái hộp nổi luôn cho khỏe
+                height: 140
 
-                    Text {
-                        // Tạm gọi code định dạng thời gian của backend C++ cho nhẹ QML
-                        text: playbackController ? playbackController.formatTime(videoPlayer.position) : "0:00"
-                        color: "#FFFFFF"
-                        font.pixelSize: 16
-                    }
+                color: "#A018181C"
+                radius: 16
+                border.color: "#20FFFFFF"
+                border.width: 1
 
-                    CustomSlider {
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 15
+                    spacing: 10
+
+                    // ======== CỤM 3 NÚT: PREV - PLAY/PAUSE - NEXT ========
+                    RowLayout {
                         Layout.fillWidth: true
-                        value: videoPlayer.duration > 0 ? (videoPlayer.position / videoPlayer.duration) : 0
+                        spacing: 40
+                        Layout.alignment: Qt.AlignHCenter
 
-                        onMoved: {
-                            if (videoPlayer.duration > 0) {
-                                videoPlayer.position = value * videoPlayer.duration;
+                        // Nút Previous
+                        Rectangle {
+                            Layout.alignment: Qt.AlignVCenter
+                            width: 48; height: 48; radius: 24; color: "#CCFFFFFF"
+
+                            Image {
+                                anchors.centerIn: parent
+                                width: 28; height: 28
+                                sourceSize.width: 128; sourceSize.height: 128
+                                source: "qrc:/qt/qml/app_id/assets/prev.svg"
+                                fillMode: Image.PreserveAspectFit
+                                smooth: true; mipmap: true
                             }
-                            autoHideTimer.restart();
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    if (playbackController) playbackController.previous();
+                                    autoHideTimer.restart();
+                                }
+                            }
+                        }
+
+                        // Nút Play / Pause
+                        Rectangle {
+                            Layout.alignment: Qt.AlignVCenter
+                            width: 56; height: 56; radius: 28; color: "#CCFFFFFF"
+
+                            Text {
+                                anchors.centerIn: parent
+                                text: root.isPlaying ? "❚❚" : "▶"
+                                font.pixelSize: 24
+                                color: "#000000"
+                            }
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    if (root.isPlaying) root.pauseVideo();
+                                    else root.playVideo();
+                                    autoHideTimer.restart();
+                                }
+                            }
+                        }
+
+                        // Nút Next
+                        Rectangle {
+                            Layout.alignment: Qt.AlignVCenter
+                            width: 48; height: 48; radius: 24; color: "#CCFFFFFF"
+
+                            Image {
+                                anchors.centerIn: parent
+                                width: 28; height: 28
+                                sourceSize.width: 128; sourceSize.height: 128
+                                source: "qrc:/qt/qml/app_id/assets/next.svg"
+                                fillMode: Image.PreserveAspectFit
+                                smooth: true; mipmap: true
+                            }
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    if (playbackController) playbackController.next();
+                                    autoHideTimer.restart();
+                                }
+                            }
                         }
                     }
 
-                    Text {
-                        text: playbackController ? playbackController.formatTime(videoPlayer.duration) : "0:00"
-                        color: "#FFFFFF"
-                        font.pixelSize: 16
+                    // ======== THANH SLIDER VÀ THỜI GIAN ========
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: 15
+
+                        Text {
+                            text: playbackController ? playbackController.formatTime(videoPlayer.position) : "0:00"
+                            color: "#FFFFFF"
+                            font.pixelSize: 14
+                        }
+
+                        CustomSlider {
+                            Layout.fillWidth: true
+                            value: videoPlayer.duration > 0 ? (videoPlayer.position / videoPlayer.duration) : 0
+
+                            onMoved: {
+                                if (videoPlayer.duration > 0) {
+                                    videoPlayer.position = value * videoPlayer.duration;
+                                }
+                                autoHideTimer.restart();
+                            }
+                        }
+
+                        Text {
+                            text: playbackController ? playbackController.formatTime(videoPlayer.duration) : "0:00"
+                            color: "#FFFFFF"
+                            font.pixelSize: 14
+                        }
                     }
                 }
             }
