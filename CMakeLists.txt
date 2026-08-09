@@ -62,8 +62,7 @@ target_link_libraries(appAutoPlayer PRIVATE
         Qt6::Multimedia
 )
 
-# --- CHỈ LINK TAGLIB NẾU KHÔNG PHẢI ANDROID ---
 if(NOT ANDROID)
     target_link_libraries(appAutoPlayer PRIVATE ${TAGLIB_LIBRARIES})
 endif()
-# ----------------------------------------------set_property(TARGET appAutoPlayer PROPERTY QT_ANDROID_TARGET_SDK_VERSION 34)
+
